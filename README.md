@@ -9,6 +9,7 @@
 وكيل ذكاء اصطناعي يساعد الخريجين والباحثين عن عمل على اكتشاف مسارهم المهني، ومراجعة سيرهم الذاتية، والتدرب على المقابلات، وبناء خطة تعلم. مبني بالكامل على **n8n** بدون كتابة كود.
 
 [![جرّب البوت](https://img.shields.io/badge/Telegram-@MasariCareerBot-26A5E4?logo=telegram&logoColor=white)](https://t.me/MasariCareerBot)
+[![صفحة المشروع](https://img.shields.io/badge/%D8%B5%D9%81%D8%AD%D8%A9%20%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%88%D8%B9-GitHub%20Pages-0f8f86)](https://aj5749843-cmd.github.io/masari-career-bot/)
 [![n8n](https://img.shields.io/badge/Built%20with-n8n-EA4B71?logo=n8n&logoColor=white)](https://n8n.io)
 [![Gemini](https://img.shields.io/badge/LLM-Google%20Gemini-4285F4?logo=googlegemini&logoColor=white)](https://ai.google.dev)
 
