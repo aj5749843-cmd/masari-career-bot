@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:Kufi;font-weight:500;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-700-normal.woff2)}
+@font-face{font-family:Kufi;font-weight:500;src:url(node_modules/@fontsource/cairo/files/cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Kufi;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-800-normal.woff2)}
+@font-face{font-family:Kufi;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-latin-800-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Plex;font-weight:400;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-400-normal.woff2)}
+@font-face{font-family:Plex;font-weight:400;src:url(node_modules/@fontsource/almarai/files/almarai-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Plex;font-weight:500;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-700-normal.woff2)}
+@font-face{font-family:Plex;font-weight:500;src:url(node_modules/@fontsource/almarai/files/almarai-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Plex;font-weight:600;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-700-normal.woff2)}
+@font-face{font-family:Plex;font-weight:600;src:url(node_modules/@fontsource/almarai/files/almarai-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-800-normal.woff2)}
+@font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/almarai/files/almarai-latin-800-normal.woff2);unicode-range:U+0000-00FF}
+
+:root{--gold:#f2bb3d;--ink:#0d2a33;--mint:#bff0ea;--teal:#0f8f86;--deep:#173f6e}
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1350px;overflow:hidden;background:#0e5f72}
+body{font-family:Plex,sans-serif;color:#fff;position:relative}
+#bg{position:absolute;inset:0;background:linear-gradient(165deg,#0f8f86 0%,#126579 48%,#173f6e 100%)}
+#grain{position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.12),transparent 45%),radial-gradient(circle at 10% 90%,rgba(242,187,61,.10),transparent 40%)}
+#road{position:absolute;inset:0;opacity:.08}
+.scene{position:absolute;inset:0;opacity:0}
+.k{font-family:Kufi,Plex,sans-serif;font-weight:700}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:28px;padding:0 90px}
+
+/* S1 hook */
+#s1 .l1{font-size:70px;opacity:.9}
+#s1 .l2{font-size:96px;line-height:1.3}
+#s1 .l2 span{color:var(--gold);white-space:nowrap}
+
+/* S2 logo */
+#s2 .logo{width:300px;height:300px;border-radius:72px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+#s2 .logo img{width:100%;height:100%}
+#s2 h1{font-size:150px;line-height:1.45;margin-bottom:6px}
+#s2 p{font-size:46px;font-weight:500}
+#s2 .pill{font-size:30px;padding:10px 26px;border:2px solid rgba(255,255,255,.5);border-radius:99px;direction:ltr}
+
+/* S3 services */
+.svc-head{position:absolute;top:92px;right:90px;left:90px;display:flex;flex-direction:column;gap:14px}
+.svc-top{display:flex;align-items:center;gap:18px}
+.num{font-family:Kufi;font-weight:700;font-size:30px;color:var(--ink);background:var(--gold);width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
+.cmd{direction:ltr;font-family:Plex;font-weight:600;font-size:30px;background:rgba(255,255,255,.14);padding:6px 20px;border-radius:12px;color:var(--mint)}
+.svc-head h2{font-size:76px;line-height:1.3}
+.svc-head p{font-size:34px;font-weight:500;opacity:.95;line-height:1.6}
+.dots{position:absolute;top:104px;left:90px;display:flex;gap:10px;direction:ltr}
+.dots i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dots i.on{background:var(--gold)}
+
+.phone{position:absolute;bottom:-60px;left:50%;width:640px;height:880px;margin-left:-320px;background:#0b1e24;border-radius:64px;padding:18px;box-shadow:0 40px 90px rgba(0,0,0,.4)}
+.screen{width:100%;height:100%;border-radius:48px;overflow:hidden;background:#dfe9dc;display:flex;flex-direction:column}
+.tg-bar{background:#fff;color:var(--ink);display:flex;align-items:center;gap:16px;padding:26px 28px 18px}
+.tg-bar img{width:60px;height:60px;border-radius:50%}
+.tg-bar b{font-family:Kufi;font-size:30px;display:block}
+.tg-bar small{font-size:20px;color:#5c7a80}
+.chat{flex:1;padding:24px 22px;display:flex;flex-direction:column;gap:16px;background:linear-gradient(#e4eedf,#d6e6d2)}
+.b{max-width:86%;padding:18px 24px;border-radius:26px;font-size:30px;line-height:1.6;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08);opacity:0;transform-origin:bottom}
+.b.u{align-self:flex-start;background:#effdde;border-bottom-right-radius:6px}
+.b.m{align-self:flex-end;background:#fff;border-bottom-left-radius:6px}
+.b .c{direction:ltr;display:inline-block;color:#1f7fbf;font-weight:600}
+.b strong{font-weight:700;font-family:Kufi;color:#0f7f7a}
+.b .row{display:block}
+.typing{align-self:flex-end;background:#fff;border-radius:24px;padding:18px 24px;display:flex;gap:8px;opacity:0}
+.typing i{width:12px;height:12px;border-radius:50%;background:#8aa3a8}
+
+/* S4 build */
+#s4 h2{position:absolute;top:120px;right:90px;left:90px;font-size:78px;line-height:1.25}
+#s4 .sub{position:absolute;top:340px;right:90px;left:90px;font-size:36px;font-weight:500;opacity:.95}
+.nodes{position:absolute;top:520px;right:70px;left:70px;height:420px}
+.node{position:absolute;width:250px;background:#fff;color:var(--ink);border-radius:28px;padding:26px 18px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);opacity:0}
+.node .ic{width:76px;height:76px;border-radius:22px;margin:0 auto 14px;display:grid;place-items:center;font-family:Kufi;font-size:30px;color:#fff}
+.node b{font-family:Kufi;font-size:32px;display:block}
+.node small{font-size:21px;color:#5c7a80;direction:ltr;display:block;margin-top:4px}
+.sub-node{position:absolute;width:190px;background:rgba(255,255,255,.14);border:2px dashed rgba(255,255,255,.5);border-radius:22px;padding:14px;text-align:center;font-size:24px;opacity:0}
+.sub-node b{display:block;font-family:Kufi;font-size:26px}
+#wire{position:absolute;inset:0;overflow:visible}
+.pulse{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 10px rgba(242,187,61,.25);opacity:0}
+.nocode{position:absolute;bottom:150px;left:0;right:0;text-align:center;font-family:Kufi;font-size:44px;color:var(--gold);opacity:0}
+
+/* S5 guard */
+#s5 h2{position:absolute;top:150px;right:90px;left:90px;font-size:80px;line-height:1.25}
+.guards{position:absolute;top:470px;right:90px;left:90px;display:flex;flex-direction:column;gap:30px}
+.g{display:flex;gap:30px;align-items:center;background:rgba(255,255,255,.1);border-right:8px solid var(--gold);border-radius:24px;padding:34px 36px;opacity:0}
+.g .gi{flex:none;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;font-family:Kufi;font-size:38px;color:var(--gold)}
+.g b{font-family:Kufi;font-size:44px;display:block}
+.g span{font-size:30px;font-weight:500;opacity:.95;line-height:1.5}
+
+/* S6 cta */
+#s6 .center{gap:34px}
+#s6 h2{font-size:104px;line-height:1.15}
+#s6 .qr{width:330px;height:330px;background:#fff;border-radius:36px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.3)}
+#s6 .qr img{width:100%;height:100%}
+#s6 .link{direction:ltr;font-family:Plex;font-weight:600;font-size:46px;background:var(--gold);color:#2b1d00;padding:16px 40px;border-radius:99px}
+#s6 .meta{font-size:30px;opacity:.85}
+#s6 .by{font-size:30px;opacity:.75;margin-top:10px}
+#s6 .by b{font-family:Kufi;font-weight:500;opacity:1}
+
+#bar{position:absolute;bottom:0;right:0;height:8px;background:var(--gold);width:0}
+</style>
+</head>
+<body>
+<div id="bg"></div><div id="grain"></div>
+<svg id="road" viewBox="0 0 1080 1350" preserveAspectRatio="none"><path id="roadp" d="M820 1400 C 760 1150, 260 1120, 300 880 S 900 620, 760 380 S 300 160, 380 -60" fill="none" stroke="#fff" stroke-width="70" stroke-linecap="round"/></svg>
+
+<!-- S1 -->
+<section class="scene" id="s1"><div class="center">
+  <p class="l1 k" id="s1a">تخرّجت…</p>
+  <p class="l2 k" id="s1b">ولا تعرف<br><span>من أين تبدأ؟</span></p>
+</div></section>
+
+<!-- S2 -->
+<section class="scene" id="s2"><div class="center">
+  <div class="logo" id="s2logo"><img src="logo.png"></div>
+  <h1 class="k" id="s2t">مساري</h1>
+  <p id="s2p">مرشدك المهني الذكي على تليجرام</p>
+  <span class="pill" id="s2pill">@MasariCareerBot</span>
+</div></section>
+
+<!-- S3 services (filled by JS) -->
+<section class="scene" id="s3">
+  <div class="svc-head">
+    <div class="svc-top"><span class="num" id="snum">1</span><span class="cmd" id="scmd">/assess</span></div>
+    <h2 class="k" id="stitle"></h2>
+    <p id="sdesc"></p>
+  </div>
+  <div class="dots" id="sdots"><i></i><i></i><i></i><i></i></div>
+  <div class="phone" id="phone"><div class="screen">
+    <div class="tg-bar"><img src="logo.png"><div><b>مساري</b><small>bot</small></div></div>
+    <div class="chat" id="chat"></div>
+  </div></div>
+</section>
+
+<!-- S4 -->
+<section class="scene" id="s4">
+  <h2 class="k" id="s4h">كيف يعمل؟<br>رحلة رسالة واحدة</h2>
+  <p class="sub" id="s4s">سير عمل من ثماني عقد على منصة n8n</p>
+  <div class="nodes">
+    <svg id="wire" viewBox="0 0 940 420"><path id="w1" d="M690 120 L 560 120" stroke="#fff" stroke-width="5" stroke-dasharray="12 12" fill="none"/><path id="w2" d="M380 120 L 250 120" stroke="#fff" stroke-width="5" stroke-dasharray="12 12" fill="none"/><path id="w3" d="M470 210 L 470 260" stroke="#fff" stroke-width="4" stroke-dasharray="8 8" fill="none"/></svg>
+    <div class="node" id="n1" style="right:0;top:0"><div class="ic" style="background:#2aa3df">✈</div><b>تليجرام</b><small>Telegram Trigger</small></div>
+    <div class="node" id="n2" style="right:345px;top:0"><div class="ic" style="background:#0f8f86">AI</div><b>الوكيل</b><small>AI Agent</small></div>
+    <div class="node" id="n3" style="left:0;top:0"><div class="ic" style="background:#e8a91c">↩</div><b>الرد</b><small>Send Reply</small></div>
+    <div class="sub-node" id="n4" style="right:265px;top:280px"><b>Gemini</b>النموذج اللغوي</div>
+    <div class="sub-node" id="n5" style="right:485px;top:280px"><b>الذاكرة</b>لكل مستخدم</div>
+    <div class="pulse" id="pulse"></div>
+  </div>
+  <p class="nocode" id="nocode">بدون كتابة سطر كود واحد</p>
+</section>
+
+<!-- S5 -->
+<section class="scene" id="s5">
+  <h2 class="k" id="s5h">مرشد مسؤول،<br>لا مجرد روبوت محادثة</h2>
+  <div class="guards">
+    <div class="g" id="g1"><div class="gi">✓</div><div><b>دقيق</b><span>لا يخترع أرقام رواتب أو شروطاً، ويحيلك للمصدر الرسمي</span></div></div>
+    <div class="g" id="g2"><div class="gi">🔒</div><div><b>يحمي خصوصيتك</b><span>ينبّهك ألا تشارك بيانات حساسة، ولكل مستخدم ذاكرة منفصلة</span></div></div>
+    <div class="g" id="g3"><div class="gi" dir="ltr">18+</div><div><b>لمن هم 18 سنة فأكثر</b><span>ويوجّه من هو أصغر للمرشد الطلابي بلطف</span></div></div>
+  </div>
+</section>
+
+<!-- S6 -->
+<section class="scene" id="s6"><div class="center">
+  <h2 class="k" id="c1">جرّبه الآن</h2>
+  <div class="qr" id="c2"><img src="qr.svg"></div>
+  <span class="link" id="c3">t.me/MasariCareerBot</span>
+  <p class="meta" id="c4">مجاني · بالعربية · بدون تسجيل</p>
+  <p class="by" id="c5">فكرة وتنفيذ <b>أريج عطاالله الجبرتي</b></p>
+</div></section>
+
+<div id="bar"></div>
+
+<script>
+const T=50; // total seconds
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-clamp(x),3);
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const back=x=>{x=clamp(x);const c=1.4;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+function inAt(el,t,start,dur=.6,dy=40,sc=false){const p=eo((t-start)/dur);el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`+(sc?` scale(${.85+.15*back((t-start)/dur)})`:'')}
+function scene(id,t,a,b,f=.45){const s=$(id);let o=0;if(t>=a-f&&t<=b+f){o=Math.min(eo((t-a+f)/f),eo((b+f-t)/f))}s.style.opacity=o;s.style.display=o>0?'block':'none';return t-a}
+
+const services=[
+ {cmd:'/assess',title:'اكتشف مسارك',desc:'أسئلة قصيرة، سؤال واحد في كل مرة، ثم تقرير بثلاثة مسارات تناسبك',
+  chat:[['u','<span class="c">/assess</span>'],['m','لنبدأ: ما مرحلتك الدراسية وتخصصك؟'],['u','خريجة علوم حاسب، أحب التصميم'],['m','<strong>تقريرك: 3 مسارات تناسبك</strong><span class="row">• باحث تجربة مستخدم</span><span class="row">• مصمم واجهات</span><span class="row">• محلل بيانات</span>']]},
+ {cmd:'/interview',title:'محاكاة مقابلة عمل',desc:'لجنة توظيف افتراضية بستة أسئلة، وتقرير كامل في النهاية',
+  chat:[['u','<span class="c">/interview</span> باحث تجربة مستخدم'],['m','السؤال 1 من 6:<br>عرّفنا بنفسك باختصار'],['u','<span class="c">/end</span>'],['m','<strong>التقييم: 7 من 10</strong><span class="row">• ملاحظة على كل إجابة</span><span class="row">• نموذج إجابة بطريقة STAR</span><span class="row">• 3 نصائح للمقابلة الحقيقية</span>']]},
+ {cmd:'/cv',title:'مراجعة السيرة الذاتية',desc:'يقرؤها كمسؤول توظيف، ويكشف ما ينقصها لأنظمة الفرز الآلي',
+  chat:[['u','<span class="c">/cv</span>'],['m','الصق نص سيرتك، والوظيفة التي تستهدفها'],['u','(نص السيرة الذاتية…)'],['m','<strong>التقييم: 6 من 10</strong><span class="row">• أهم 5 تحسينات مع إعادة صياغة</span><span class="row">• كلمات مفتاحية ناقصة لـ ATS</span>']]},
+ {cmd:'/plan',title:'خطة تعلم',desc:'من الهدف إلى خطة على مراحل، لكل مرحلة مخرج ملموس',
+  chat:[['u','<span class="c">/plan</span> مصممة واجهات، 6 ساعات أسبوعياً'],['m','<strong>خطتك في 12 أسبوعاً</strong><span class="row">١. أساسيات التصميم و Figma</span><span class="row">٢. أبحاث المستخدم</span><span class="row">٣. مشروع حقيقي لملف أعمالك</span>']]},
+];
+const S3A=9.5, SV=5.6; // start, per service
+let builtFor=-1;
+function buildChat(i){const c=$('chat');c.innerHTML='';services[i].chat.forEach(([w,h])=>{const d=document.createElement('div');d.className='b '+w;d.innerHTML=h;c.appendChild(d)});const ty=document.createElement('div');ty.className='typing';ty.innerHTML='<i></i><i></i><i></i>';c.appendChild(ty);builtFor=i}
+
+function render(t){
+  $('bar').style.width=(clamp(t/T)*100)+'%';
+  const rp=$('roadp'),L=rp.getTotalLength();rp.style.strokeDasharray=L;rp.style.strokeDashoffset=L*(1-eio(t/T));
+
+  // S1 0-4.4
+  let l=scene('s1',t,0,4.4);
+  if(l>-1&&l<6){inAt($('s1a'),l,.2,.8,50);inAt($('s1b'),l,1.2,.9,60)}
+
+  // S2 4.8-9
+  l=scene('s2',t,4.8,9);
+  if(l>-1&&l<6){inAt($('s2logo'),l,0,.9,0,true);inAt($('s2t'),l,.5,.7);inAt($('s2p'),l,.9,.7);inAt($('s2pill'),l,1.4,.7)}
+
+  // S3 services
+  l=scene('s3',t,S3A,S3A+SV*4);
+  if(l>-1&&l<SV*4+1){
+    const i=clamp(Math.floor(Math.max(l,0)/SV),0,3),li=Math.max(l,0)-i*SV, s=services[i];
+    if(builtFor!==i)buildChat(i);
+    $('snum').textContent=i+1;$('scmd').textContent=s.cmd;$('stitle').textContent=s.title;$('sdesc').textContent=s.desc;
+    [...$('sdots').children].forEach((d,k)=>d.className=k<=i?'on':'');
+    const hp=eo(li/.5),hout=i<3?eo((li-(SV-.35))/.35):0;
+    document.querySelector('.svc-head').style.opacity=hp*(1-hout);
+    document.querySelector('.svc-head').style.transform=`translateX(${(1-hp)*-40+hout*40}px)`;
+    $('phone').style.transform=`translateY(${(1-eo(l/.8))*300}px)`;
+    const bs=[...$('chat').querySelectorAll('.b')],ty=$('chat').querySelector('.typing');
+    let at=.5; let tyOn=0;
+    bs.forEach((b,k)=>{const isBot=b.classList.contains('m');
+      if(isBot){ if(li>=at&&li<at+.55)tyOn=1; at+=.55; }
+      const p=back((li-at)/.4);b.style.opacity=clamp((li-at)/.2);b.style.transform=`scale(${li<at?.8:(.8+.2*p)})`;b.style.display=li<at?'none':'block';
+      at+= isBot? 1.0 : .7;});
+    ty.style.opacity=tyOn;ty.style.display=tyOn?'flex':'none';
+    if(tyOn){[...ty.children].forEach((d,k)=>d.style.transform=`translateY(${Math.sin(li*10-k)*4}px)`)}
+  }
+
+  // S4 build 32.4-38.4
+  const A4=S3A+SV*4+.4;
+  l=scene('s4',t,A4,A4+6.2);
+  if(l>-1&&l<8){inAt($('s4h'),l,0,.6);inAt($('s4s'),l,.3,.6);
+    inAt($('n1'),l,.7,.5,30,true);inAt($('n2'),l,1.3,.5,30,true);inAt($('n4'),l,1.7,.5,20);inAt($('n5'),l,1.9,.5,20);inAt($('n3'),l,2.4,.5,30,true);
+    ['w1','w2','w3'].forEach((w,k)=>{const e=$(w);e.style.opacity=clamp((l-[1.1,2.2,1.6][k])/.3);e.style.strokeDashoffset=-l*40});
+    const pu=$('pulse');const cyc=(l-2.9);if(cyc>0){const p=(cyc%1.8)/1.8;const x=940-120-p*(940-240);pu.style.opacity=Math.sin(Math.PI*p);pu.style.left=(x-13)+'px';pu.style.top='107px'}else pu.style.opacity=0;
+    inAt($('nocode'),l,3.4,.7);
+  }
+
+  // S5 guards
+  const A5=A4+6.6;
+  l=scene('s5',t,A5,A5+5.4);
+  if(l>-1&&l<7){inAt($('s5h'),l,0,.6);['g1','g2','g3'].forEach((g,k)=>inAt($(g),l,.7+k*.6,.6,0));['g1','g2','g3'].forEach((g,k)=>{const p=eo((l-.7-k*.6)/.6);$(g).style.transform=`translateX(${(1-p)*-80}px)`})}
+
+  // S6 CTA
+  const A6=A5+5.8;
+  l=scene('s6',t,A6,T+1);
+  if(l>-1){inAt($('c1'),l,0,.6);inAt($('c2'),l,.4,.7,0,true);inAt($('c3'),l,.9,.6);inAt($('c4'),l,1.3,.6);inAt($('c5'),l,1.7,.6)}
+}
+window.render=render;window.TOTAL=T;
+document.fonts.ready.then(()=>{window.ready=true;render(0)});
+</script>
+</body>
+</html>

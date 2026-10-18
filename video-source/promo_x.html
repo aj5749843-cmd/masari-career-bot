@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:D;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-700-normal.woff2)}
+@font-face{font-family:D;font-weight:800;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-800-normal.woff2)}
+@font-face{font-family:D;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:D;font-weight:800;src:url(node_modules/@fontsource/cairo/files/cairo-latin-800-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:B;font-weight:400;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-400-normal.woff2)}
+@font-face{font-family:B;font-weight:700;src:url(node_modules/@fontsource/almarai/files/almarai-arabic-700-normal.woff2)}
+@font-face{font-family:B;font-weight:400;src:url(node_modules/@fontsource/almarai/files/almarai-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:B;font-weight:700;src:url(node_modules/@fontsource/almarai/files/almarai-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+
+:root{--ink:#061317;--ink2:#0b2229;--teal:#22b3a8;--teal2:#0f8f86;--gold:#f2bb3d;--text:#eef6f5;--muted:#8fb0b3}
+*{box-sizing:border-box;margin:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+body{font-family:B,sans-serif;color:var(--text);position:relative}
+.d{font-family:D,B,sans-serif;font-weight:800}
+#bg{position:absolute;inset:0;background:radial-gradient(1200px 800px at 75% 20%,#0d3a40 0%,transparent 60%),radial-gradient(900px 700px at 15% 90%,#132f52 0%,transparent 60%),var(--ink)}
+#grid{position:absolute;inset:-100px;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px}
+#glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(34,179,168,.22),transparent 65%);left:50%;top:50%;margin:-450px 0 0 -450px}
+.scene{position:absolute;inset:0;display:none}
+#wipe{position:absolute;top:0;bottom:0;width:2400px;right:-2600px;background:linear-gradient(90deg,var(--teal2) 0%,var(--gold) 50%,var(--teal2) 100%);transform:skewX(-14deg);z-index:50}
+#bar{position:absolute;bottom:0;right:0;height:6px;background:var(--gold);z-index:60}
+#brand{position:absolute;top:44px;left:60px;display:flex;align-items:center;gap:14px;z-index:40;opacity:0}
+#brand img{width:46px;height:46px;border-radius:12px}
+#brand span{font-family:D;font-weight:800;font-size:28px}
+
+/* S1 */
+#s1 .wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.w{display:inline-block;opacity:0;margin:0 12px}
+#s1 .a{font-size:64px;color:var(--muted)}
+#s1 .b{font-size:170px;line-height:1.35}
+#s1 .b .g{color:var(--gold)}
+
+/* S2 */
+#s2 .wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:80px}
+#s2 .logo{width:330px;height:330px;border-radius:80px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.08),0 40px 120px rgba(34,179,168,.35)}
+#s2 .logo img{width:100%;height:100%}
+#s2 .txt{display:flex;flex-direction:column;gap:6px}
+#s2 h1{font-size:220px;line-height:1.5;margin-bottom:28px}
+#s2 p{font-size:52px;color:var(--muted)}
+#s2 p b{color:var(--text);font-weight:700}
+
+/* S3 */
+#s3 .col{position:absolute;right:140px;top:0;bottom:0;width:860px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.kicker{display:flex;align-items:center;gap:20px;font-size:30px;color:var(--muted)}
+.kicker .n{font-family:D;font-weight:800;font-size:30px;color:var(--ink);background:var(--gold);border-radius:50%;width:62px;height:62px;display:grid;place-items:center}
+.kicker .cmd{direction:ltr;font-family:B;font-weight:700;color:var(--teal);border:2px solid rgba(34,179,168,.5);border-radius:12px;padding:4px 18px}
+#s3 h2{font-size:118px;line-height:1.2}
+#s3 .desc{font-size:42px;line-height:1.6;color:var(--muted);max-width:800px}
+.ticks{display:flex;gap:12px;margin-top:20px}
+.ticks i{height:6px;width:70px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden;position:relative}
+.ticks i b{position:absolute;inset:0;background:var(--gold);transform-origin:right;transform:scaleX(0)}
+.phone{position:absolute;left:190px;top:90px;width:560px;height:1060px;background:#0f1d22;border-radius:70px;padding:16px;box-shadow:0 0 0 2px rgba(255,255,255,.08),0 60px 120px rgba(0,0,0,.6),0 0 160px rgba(34,179,168,.18)}
+.screen{width:100%;height:100%;border-radius:56px;overflow:hidden;display:flex;flex-direction:column;background:#e3ece0}
+.tg{background:#fff;color:#0d2a33;display:flex;align-items:center;gap:14px;padding:30px 26px 18px}
+.tg img{width:56px;height:56px;border-radius:50%}
+.tg b{font-family:D;font-size:28px;display:block;line-height:1.2}
+.tg small{font-size:19px;color:#5c7a80}
+.chat{flex:1;padding:22px 20px;display:flex;flex-direction:column;gap:14px}
+.bb{max-width:88%;padding:16px 20px;border-radius:24px;font-size:26px;line-height:1.6;color:#0d2a33;box-shadow:0 1px 2px rgba(0,0,0,.08);display:none;transform-origin:bottom}
+.bb.u{align-self:flex-start;background:#effdde;border-bottom-right-radius:6px}
+.bb.m{align-self:flex-end;background:#fff;border-bottom-left-radius:6px}
+.bb .c{direction:ltr;display:inline-block;color:#1f7fbf;font-weight:700}
+.bb strong{font-family:D;font-weight:800;color:#0f7f7a;display:block}
+.bb .r{display:block}
+.typing{align-self:flex-end;background:#fff;border-radius:22px;padding:16px 22px;display:none;gap:8px}
+.typing i{width:11px;height:11px;border-radius:50%;background:#8aa3a8}
+
+/* S4 */
+#s4 .head{position:absolute;top:150px;right:140px;left:140px;display:flex;justify-content:space-between;align-items:flex-end}
+#s4 h2{font-size:104px;line-height:1.2}
+#s4 .tagline{font-size:40px;color:var(--gold);font-family:D;font-weight:700}
+.pipe{position:absolute;top:480px;right:140px;left:140px;height:400px}
+.pn{position:absolute;top:0;width:330px;height:220px;border-radius:30px;background:var(--ink2);border:2px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0}
+.pn .ic{width:84px;height:84px;border-radius:24px;display:grid;place-items:center;font-family:D;font-weight:800;font-size:34px;color:#fff}
+.pn b{font-family:D;font-size:38px}
+.pn small{direction:ltr;font-size:22px;color:var(--muted)}
+.ps{position:absolute;top:280px;width:250px;padding:18px;border-radius:22px;border:2px dashed rgba(34,179,168,.5);text-align:center;font-size:24px;color:var(--muted);opacity:0}
+.ps b{display:block;color:var(--text);font-family:D;font-size:30px}
+#line{position:absolute;inset:0;overflow:visible}
+.dotp{position:absolute;top:96px;width:28px;height:28px;border-radius:50%;background:var(--gold);box-shadow:0 0 30px 8px rgba(242,187,61,.5);opacity:0}
+
+/* S5 */
+#s5 .wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 160px;gap:34px}
+.st{display:flex;align-items:baseline;gap:40px;opacity:0}
+.st .k{font-family:D;font-weight:800;font-size:120px;line-height:1.2;color:var(--text);min-width:430px}
+.st .k.gold{color:var(--gold)}
+.st span{font-size:40px;color:var(--muted)}
+
+/* S6 */
+#s6 .wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:120px}
+#s6 .l{display:flex;flex-direction:column;gap:22px}
+#s6 h2{font-size:150px;line-height:1.15}
+#s6 .link{direction:ltr;align-self:flex-start;font-family:D;font-weight:800;font-size:58px;background:var(--gold);color:#1e1500;padding:10px 44px;border-radius:999px}
+#s6 .meta{font-size:36px;color:var(--muted)}
+#s6 .by{font-size:32px;color:var(--muted);margin-top:16px}
+#s6 .by b{color:var(--text);font-family:D;font-weight:700}
+#s6 .qr{width:400px;height:400px;background:#fff;border-radius:40px;padding:30px;box-shadow:0 0 120px rgba(242,187,61,.25)}
+#s6 .qr img{width:100%;height:100%}
+</style>
+</head>
+<body>
+<div id="bg"></div><div id="grid"></div><div id="glow"></div>
+<div id="brand"><img src="logo.png"><span>مساري</span></div>
+
+<section class="scene" id="s1"><div class="wrap">
+  <p class="a" id="s1a"><span class="w">كل</span><span class="w">خريج</span><span class="w">يسأل</span><span class="w">نفسه</span></p>
+  <p class="b d" id="s1b"><span class="w">ماذا</span><span class="w">بعد</span><span class="w g">التخرّج؟</span></p>
+</div></section>
+
+<section class="scene" id="s2"><div class="wrap">
+  <div class="txt"><h1 class="d" id="s2t">مساري</h1><p id="s2p">وكيل ذكاء اصطناعي <b>للإرشاد المهني</b></p><p id="s2q" style="font-size:40px">على تليجرام · بالعربية · مجاناً</p></div>
+  <div class="logo" id="s2l"><img src="logo.png"></div>
+</div></section>
+
+<section class="scene" id="s3">
+  <div class="col">
+    <div class="kicker" id="kk"><span class="n" id="kn">1</span><span class="cmd" id="kc">/assess</span><span id="kl">الخدمة 1 من 4</span></div>
+    <h2 class="d" id="st"></h2>
+    <p class="desc" id="sd"></p>
+    <div class="ticks" id="tk"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  </div>
+  <div class="phone" id="ph"><div class="screen"><div class="tg"><img src="logo.png"><div><b>مساري</b><small>bot</small></div></div><div class="chat" id="chat"></div></div></div>
+</section>
+
+<section class="scene" id="s4">
+  <div class="head"><h2 class="d" id="s4h">تحت الغطاء</h2><span class="tagline" id="s4t">بُني على n8n · بدون كود</span></div>
+  <div class="pipe">
+    <svg id="line" viewBox="0 0 1640 400"><path id="pl" d="M1310 110 H 330" stroke="rgba(255,255,255,.25)" stroke-width="4" stroke-dasharray="14 12" fill="none"/><path id="pl2" d="M820 220 V 280" stroke="rgba(34,179,168,.6)" stroke-width="4" stroke-dasharray="8 8" fill="none"/></svg>
+    <div class="pn" id="p1" style="right:0"><div class="ic" style="background:#2aa3df">✈</div><b>تليجرام</b><small>Telegram Trigger</small></div>
+    <div class="pn" id="p2" style="right:655px"><div class="ic" style="background:#0f8f86">AI</div><b>الوكيل</b><small>AI Agent</small></div>
+    <div class="pn" id="p3" style="left:0"><div class="ic" style="background:#e8a91c">↩</div><b>الرد</b><small>Send Reply</small></div>
+    <div class="ps" id="p4" style="right:560px"><b>Gemini</b>النموذج اللغوي</div>
+    <div class="ps" id="p5" style="right:830px"><b>الذاكرة</b>لكل مستخدم</div>
+    <div class="dotp" id="dp"></div>
+  </div>
+</section>
+
+<section class="scene" id="s5"><div class="wrap">
+  <div class="st" id="t1"><span class="k">دقيق.</span><span>لا يخترع أرقاماً، ويحيلك للمصدر الرسمي</span></div>
+  <div class="st" id="t2"><span class="k">آمن.</span><span>يحمي خصوصيتك، ولكل مستخدم ذاكرة منفصلة</span></div>
+  <div class="st" id="t3"><span class="k gold">مسؤول.</span><span>الخدمة لمن هم 18 سنة فأكثر</span></div>
+</div></section>
+
+<section class="scene" id="s6"><div class="wrap">
+  <div class="l">
+    <h2 class="d" id="c1">ابدأ مسارك<br>الآن</h2>
+    <span class="link" id="c2">t.me/MasariCareerBot</span>
+    <p class="meta" id="c3">مجاني · بالعربية · بدون تسجيل</p>
+    <p class="by" id="c4">فكرة وتنفيذ <b>أريج عطاالله الجبرتي</b></p>
+  </div>
+  <div class="qr" id="c5"><img src="qr.svg"></div>
+</div></section>
+
+<div id="wipe"></div><div id="bar"></div>
+
+<script>
+const T=37;
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-cl(x),3);
+const eo5=x=>1-Math.pow(1-cl(x),5);
+const eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const back=x=>{x=cl(x);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+function rise(el,l,s,d=.55,dy=50,blur=true){const p=eo5((l-s)/d);el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`;if(blur)el.style.filter=p<1?`blur(${(1-p)*14}px)`:'none'}
+function pop(el,l,s,d=.5){const p=(l-s)/d;el.style.opacity=cl(p*2.5);el.style.transform=`scale(${l<s?.6:.6+.4*back(p)})`}
+
+// cuts happen at the middle of each wipe
+const CUTS=[3.4,6.8,22.8,28.4,32.0];
+const SC=['s1','s2','s3','s4','s5','s6'];
+const S3A=7.0, SV=3.95;
+const services=[
+ {cmd:'/assess',t:'اكتشف مسارك',d:'أسئلة قصيرة، ثم تقرير بثلاثة مسارات مهنية تناسبك في سوق العمل السعودي',
+  c:[['u','<span class="c">/assess</span>'],['m','ما مرحلتك الدراسية وتخصصك؟'],['u','خريجة علوم حاسب، أحب التصميم'],['m','<strong>3 مسارات تناسبك</strong><span class="r">• باحث تجربة مستخدم</span><span class="r">• مصمم واجهات</span><span class="r">• محلل بيانات</span>']]},
+ {cmd:'/interview',t:'تدرّب على المقابلة',d:'لجنة توظيف افتراضية بستة أسئلة، وتقرير تقييم بطريقة STAR',
+  c:[['u','<span class="c">/interview</span> باحث تجربة مستخدم'],['m','السؤال 1 من 6: عرّفنا بنفسك باختصار'],['u','<span class="c">/end</span>'],['m','<strong>التقييم: 7 من 10</strong><span class="r">• ملاحظة على كل إجابة</span><span class="r">• نموذج إجابة STAR</span>']]},
+ {cmd:'/cv',t:'راجع سيرتك',d:'يقرؤها كمسؤول توظيف، ويكشف ما ينقصها لأنظمة الفرز الآلي ATS',
+  c:[['u','<span class="c">/cv</span>'],['m','الصق نص سيرتك والوظيفة المستهدفة'],['u','(نص السيرة الذاتية…)'],['m','<strong>التقييم: 6 من 10</strong><span class="r">• أهم 5 تحسينات</span><span class="r">• كلمات مفتاحية ناقصة</span>']]},
+ {cmd:'/plan',t:'ابنِ خطتك',d:'من الهدف إلى خطة على مراحل، لكل مرحلة مخرج ملموس ومشروع لملف أعمالك',
+  c:[['u','<span class="c">/plan</span> مصممة واجهات، 6 ساعات أسبوعياً'],['m','<strong>خطتك في 12 أسبوعاً</strong><span class="r">١. أساسيات التصميم و Figma</span><span class="r">٢. أبحاث المستخدم</span><span class="r">٣. مشروع لملف أعمالك</span>']]},
+];
+// bubble schedule within a service (seconds from service start)
+function schedule(n){const out=[];let at=.35;for(let k=0;k<n;k++){const bot=k%2===1;if(bot){out.push({k,typing:at,show:at+.4});at+=.4}else out.push({k,show:at});at+=.6}return out}
+
+let built=-1;
+function build(i){const c=$('chat');c.innerHTML='';services[i].c.forEach(([w,h])=>{const d=document.createElement('div');d.className='bb '+w;d.innerHTML=h;c.appendChild(d)});const ty=document.createElement('div');ty.className='typing';ty.innerHTML='<i></i><i></i><i></i>';c.appendChild(ty);built=i}
+
+function render(t){
+  $('bar').style.width=(cl(t/T)*100)+'%';
+  // which scene
+  let si=0;CUTS.forEach(c=>{if(t>=c)si++});
+  SC.forEach((s,k)=>$(s).style.display=k===si?'block':'none');
+  const start=si===0?0:CUTS[si-1], l=t-start;
+  // wipe
+  let wx=-2600;CUTS.forEach(c=>{const p=(t-(c-.35))/.7;if(p>=0&&p<=1){wx=-2600+eio(p)*(1920+2600+400)}});
+  $('wipe').style.right=wx+'px';
+  // camera drift
+  $('grid').style.transform=`translate(${(t*6)%80}px,${(t*3)%80}px)`;
+  $('glow').style.transform=`translate(${Math.sin(t*.4)*220}px,${Math.cos(t*.3)*120}px)`;
+  $('brand').style.opacity=(si>=3&&si<=4)?1:0;
+
+  if(si===0){[...document.querySelectorAll('#s1 .w')].forEach((w,k)=>rise(w,l,.15+k*.18+(k>=4?.25:0),.5,40))}
+  if(si===1){pop($('s2l'),l,.05,.6);rise($('s2t'),l,.25,.6,60);rise($('s2p'),l,.55,.5,30);rise($('s2q'),l,.8,.5,30);
+    const z=1+l*.015;$('s2').style.transform=`scale(${z})`}
+  if(si===2){
+    const L=Math.max(0,t-S3A);const i=cl(Math.floor(L/SV),0,3),li=L-i*SV,s=services[i];
+    if(built!==i)build(i);
+    $('kn').textContent=i+1;$('kc').textContent=s.cmd;$('kl').textContent=`الخدمة ${i+1} من 4`;$('st').textContent=s.t;$('sd').textContent=s.d;
+    rise($('kk'),li,0,.4,20,false);rise($('st'),li,.05,.5,50);rise($('sd'),li,.2,.5,30);
+    [...$('tk').children].forEach((x,k)=>x.firstChild.style.transform=`scaleX(${k<i?1:k===i?cl(li/SV):0})`);
+    const pin=eo5((t-CUTS[1])/.9);$('ph').style.transform=`translateY(${(1-pin)*500}px) rotate(${(1-pin)*-6}deg)`;
+    const sch=schedule(s.c.length),bs=[...$('chat').querySelectorAll('.bb')],ty=$('chat').querySelector('.typing');let tyOn=false;
+    sch.forEach(e=>{const b=bs[e.k];if(e.typing!==undefined&&li>=e.typing&&li<e.show)tyOn=true;
+      if(li>=e.show){b.style.display='block';const p=(li-e.show)/.35;b.style.opacity=cl(p*3);b.style.transform=`scale(${.7+.3*back(p)})`}else b.style.display='none'});
+    ty.style.display=tyOn?'flex':'none';if(tyOn)[...ty.children].forEach((d,k)=>d.style.transform=`translateY(${Math.sin(li*12-k)*4}px)`);
+  }
+  if(si===3){rise($('s4h'),l,.1,.5);rise($('s4t'),l,.35,.5,20,false);
+    ['p1','p2','p3'].forEach((p,k)=>pop($(p),l,.6+k*.55,.5));pop($('p4'),l,1.5,.45);pop($('p5'),l,1.7,.45);
+    $('pl').style.strokeDashoffset=-l*60;$('pl').style.opacity=cl((l-.8)/.4);$('pl2').style.opacity=cl((l-1.4)/.3);
+    const dp=$('dp'),c=l-2.4;if(c>0){const p=(c%1.6)/1.6;dp.style.opacity=Math.sin(Math.PI*p);dp.style.right=(330-14+p*(1310-330))+'px'}else dp.style.opacity=0}
+  if(si===4){['t1','t2','t3'].forEach((x,k)=>{const s=.15+k*.7,p=eo5((l-s)/.45);const e=$(x);e.style.opacity=cl((l-s)/.15);e.style.transform=`scale(${l<s?1.25:1.25-.25*p})`})}
+  if(si===5){rise($('c1'),l,.1,.6);rise($('c2'),l,.5,.5,30);rise($('c3'),l,.8,.5,20);rise($('c4'),l,1.1,.5,20);pop($('c5'),l,.3,.7)}
+}
+// events for the sound designer
+function events(){const ev=[];
+  CUTS.forEach(c=>ev.push({t:c-.35,type:'whoosh'}));
+  ev.push({t:CUTS[0]-1.4,type:'riser',d:1.4});ev.push({t:CUTS[0]+.05,type:'impact'});
+  [0,1,2,3,4,5,6].forEach(k=>ev.push({t:.15+k*.18+(k>=4?.25:0),type:'tick'}));
+  services.forEach((s,i)=>{const b=S3A+i*SV;if(i>0)ev.push({t:b,type:'swish'});schedule(s.c.length).forEach(e=>ev.push({t:b+e.show,type:e.k%2?'pop2':'pop'}))});
+  [0,1,2].forEach(k=>ev.push({t:CUTS[2]+.6+k*.55,type:'node'}));
+  [0,1,2].forEach(k=>ev.push({t:CUTS[3]+.15+k*.7,type:'thump'}));
+  ev.push({t:CUTS[4]+.3,type:'chime'});
+  return ev}
+window.render=render;window.TOTAL=T;window.events=events;
+document.fonts.ready.then(()=>{window.ready=true;render(0)});
+</script>
+</body>
+</html>

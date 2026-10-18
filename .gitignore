@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.log
+__pycache__/
+video-source/*.png
+video-source/*.wav
+video-source/*.json
+video-source/*_noaudio.mp4

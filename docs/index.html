@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="مساري: وكيل ذكاء اصطناعي للإرشاد المهني على تليجرام، مبني على n8n.">
+<link rel="icon" href="img/logo.png">
+<title>مساري</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800&family=Almarai:wght@400;700&display=swap">
+<style>
+/* Layout: a single road. The page reads top to bottom like the bot's own path — from the problem, through the four services, to the destination star. */
+:root{
+  --bg:#f3f7f6;
+  --surface:#ffffff;
+  --ink:#10313a;
+  --muted:#4f6a70;
+  --line:#d5e3e1;
+  --teal:#0f7f7a;
+  --deep:#16466f;
+  --gold:#e8a91c;
+  --gold-ink:#7a5300;
+  --hero-fg:#f5fbfa;
+  --shadow:0 1px 2px rgba(16,49,58,.06),0 8px 24px rgba(16,49,58,.06);
+  --display:"Cairo","Almarai",Tahoma,sans-serif;
+  --body:"Almarai",Tahoma,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b1a1f;--surface:#11262c;--ink:#e3efed;--muted:#9bb5b8;--line:#1f3b42;
+  --teal:#38b8b0;--deep:#0d2f4d;--gold:#f2bb3d;--gold-ink:#f2bb3d;--hero-fg:#f5fbfa;
+  --shadow:0 1px 2px rgba(0,0,0,.3);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1a1f;--surface:#11262c;--ink:#e3efed;--muted:#9bb5b8;--line:#1f3b42;
+  --teal:#38b8b0;--deep:#0d2f4d;--gold:#f2bb3d;--gold-ink:#f2bb3d;--hero-fg:#f5fbfa;
+  --shadow:0 1px 2px rgba(0,0,0,.3);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.8;direction:rtl}
+.wrap{max-width:1040px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.35;margin:0}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);color:var(--ink)}
+h3{font-size:1.15rem}
+p{margin:0}
+a{color:var(--teal)}
+a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.eyebrow{font-size:.8rem;letter-spacing:.04em;color:var(--teal);font-weight:600}
+section{padding-block:56px}
+.sec-head{display:grid;gap:8px;margin-bottom:28px;max-width:62ch}
+.sec-head p{color:var(--muted)}
+
+/* hero */
+.hero{background:linear-gradient(170deg,#0f8f86 0%,#13607a 55%,#173f6e 100%);color:var(--hero-fg)}
+.hero .wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:40px;align-items:center;padding-block:56px}
+.hero h1{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700}
+.hero .tag{font-size:clamp(1.1rem,2.4vw,1.35rem);opacity:.95;margin-top:6px}
+.hero .lede{margin-top:18px;max-width:52ch;opacity:.9}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none}
+.btn-gold{background:#f2bb3d;color:#2b1d00}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.55);color:#fff}
+.hero-art{justify-self:center;width:min(300px,70vw);aspect-ratio:1;border-radius:36px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.hero-art img{width:100%;height:100%;display:block}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.facts span{font-size:.85rem;background:rgba(255,255,255,.14);padding:4px 12px;border-radius:999px}
+
+/* problem */
+.problem{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.problem .pull{font-family:var(--display);font-size:clamp(1.3rem,2.8vw,1.7rem);line-height:1.6;color:var(--deep)}
+:root[data-theme="dark"] .problem .pull{color:var(--teal)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .problem .pull{color:var(--teal)}}
+.problem ul{margin:0;padding-inline-start:20px;display:grid;gap:8px;color:var(--muted)}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:10px;align-content:start}
+.svc code{direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;background:var(--bg);border:1px solid var(--line);padding:2px 8px;border-radius:6px;color:var(--teal);justify-self:start}
+.svc p{color:var(--muted);font-size:.97rem}
+.svc .out{font-size:.88rem;color:var(--ink);border-top:1px dashed var(--line);padding-top:10px}
+.svc .out b{color:var(--gold-ink);font-weight:600}
+
+/* flow */
+.flow{display:grid;gap:0;counter-reset:s;max-width:720px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:16px;position:relative;padding-bottom:22px}
+.step:not(:last-child)::after{content:"";position:absolute;inset-inline-start:21px;top:44px;bottom:0;border-inline-start:3px dashed var(--line)}
+.dot{width:44px;height:44px;border-radius:50%;background:var(--surface);border:2px solid var(--teal);display:grid;place-items:center;font-family:var(--display);color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
+.step:last-child .dot{background:var(--gold);border-color:var(--gold);color:#2b1d00}
+.step h3{margin-top:8px}
+.step p{color:var(--muted);font-size:.95rem}
+.step .tech{direction:ltr;unicode-bidi:isolate;font-size:.8rem;color:var(--teal);font-family:ui-monospace,Menlo,Consolas,monospace}
+.wf{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;overflow-x:auto}
+.wf img{display:block;width:100%;min-width:520px}
+.caption{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+figure{margin:0;display:grid;gap:8px}
+figure img{width:100%;border-radius:14px;border:1px solid var(--line);display:block;background:#cfe0c4}
+figcaption{font-size:.88rem;color:var(--muted)}
+.g-wide{grid-column:span 2}
+.g-full{grid-column:1/-1;max-width:680px;justify-self:center}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rule{border-top:3px solid var(--teal);padding-top:14px;display:grid;gap:6px}
+.rule p{color:var(--muted);font-size:.95rem}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.chip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:2px}
+.chip b{direction:ltr;unicode-bidi:isolate;font-weight:600;text-align:right}
+.chip span{font-size:.85rem;color:var(--muted)}
+
+/* next + footer */
+.next{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 32px;margin:0;padding:0;list-style:none}
+.next li{display:flex;gap:10px;align-items:baseline;color:var(--muted)}
+.next li::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;border:2px solid var(--gold);transform:translateY(-2px)}
+.end{border-top:1px solid var(--line)}
+.end .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.author b{font-family:var(--display);font-size:1.15rem}
+.author p{color:var(--muted);font-size:.92rem}
+
+@media (max-width:760px){
+  .hero .wrap,.problem{grid-template-columns:1fr}
+  .hero-art{width:min(200px,55vw);order:-1;justify-self:start}
+  .services,.rules,.next{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr}
+  .g-wide{grid-column:auto}
+  .stack{grid-template-columns:repeat(2,minmax(0,1fr))}
+  section{padding-block:40px}
+}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s}.btn:hover{transform:translateY(-1px)}}
+</style>
+<style>html,body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" style="color:#bff0ea">وكيل ذكاء اصطناعي على تليجرام</p>
+      <h1>مساري</h1>
+      <p class="tag">مرشدك المهني الذكي، من اختيار المسار إلى قاعة المقابلة.</p>
+      <p class="lede">يساعد الخريجين والباحثين عن عمل في المملكة على اكتشاف المسار المهني المناسب لهم، ومراجعة سيرهم الذاتية، والتدرب على مقابلات العمل، وبناء خطة تعلم واضحة. كل ذلك في محادثة واحدة على تليجرام، بلا تطبيق ولا تسجيل.</p>
+      <div class="cta">
+        <a class="btn btn-gold" href="https://t.me/MasariCareerBot" target="_blank" rel="noopener">جرّب مساري على تليجرام ←</a>
+        <a class="btn btn-ghost" href="#how">كيف بُني؟</a>
+      </div>
+      <div class="facts"><span>18 سنة فأكثر</span><span>مجاني</span><span>بالعربية</span><span>بدون كتابة كود</span></div>
+    </div>
+    <div class="hero-art"><img src="img/logo.png" alt="أيقونة مساري: طريق متعرج يصعد نحو نجمة ذهبية"></div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap">
+    <div class="problem">
+      <div class="sec-head" style="margin:0">
+        <p class="eyebrow">المشكلة</p>
+        <h2>كثير من الخريجين يعرفون ما درسوا، ولا يعرفون أين يتجهون</h2>
+      </div>
+      <div style="display:grid;gap:18px">
+        <p class="pull">الإرشاد المهني الجيد يحتاج وقتاً وجلسات فردية، وأغلب الشباب لا يجدونه حين يحتاجونه.</p>
+        <ul>
+          <li>حيرة في اختيار المسار بين تخصصات ووظائف كثيرة.</li>
+          <li>سير ذاتية لا تتجاوز أنظمة الفرز الآلي (ATS).</li>
+          <li>رهبة المقابلة الأولى وقلة فرص التدرب عليها.</li>
+          <li>رغبة في التعلم دون خطة واضحة توصل للهدف.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="svc-h">
+    <div class="sec-head">
+      <p class="eyebrow">ما يقدمه</p>
+      <h2 id="svc-h">أربع خدمات، ينتقل بينها المستخدم بأمر واحد</h2>
+      <p>يتذكر مساري ما قاله المستخدم خلال المحادثة، فتبني كل خدمة على ما قبلها دون تكرار للأسئلة.</p>
+    </div>
+    <div class="services">
+      <article class="svc">
+        <code>/assess</code>
+        <h3>اكتشف مسارك</h3>
+        <p>محادثة من 6 إلى 8 أسئلة، سؤال واحد في كل مرة، عن التخصص والاهتمامات وطريقة العمل المفضلة والمهارات والقيم.</p>
+        <p class="out"><b>المخرج:</b> ثلاثة مسارات مهنية في سوق العمل السعودي، لكل منها المهارات المطلوبة وشهادة للبدء، وخطوة عملية لهذا الأسبوع.</p>
+      </article>
+      <article class="svc">
+        <code>/interview</code>
+        <h3>محاكاة مقابلة عمل</h3>
+        <p>يتقمص دور لجنة توظيف ويطرح 6 أسئلة: تعريفية وسلوكية وتخصصية، دون أن يقيّم أثناء المقابلة.</p>
+        <p class="out"><b>المخرج:</b> تقييم من 10، وملاحظة على كل إجابة، ونموذج إجابة أقوى بطريقة STAR، وثلاث نصائح للمقابلة الحقيقية.</p>
+      </article>
+      <article class="svc">
+        <code>/cv</code>
+        <h3>مراجعة السيرة الذاتية</h3>
+        <p>يلصق المستخدم نص سيرته ويذكر الوظيفة المستهدفة، فيراجعها مساري كما يراجعها مسؤول توظيف.</p>
+        <p class="out"><b>المخرج:</b> تقييم عام، ونقاط القوة، وأهم 5 تحسينات مع إعادة صياغة سطر فعلي، والكلمات المفتاحية الناقصة لأنظمة ATS.</p>
+      </article>
+      <article class="svc">
+        <code>/plan</code>
+        <h3>خطة تعلم</h3>
+        <p>يسأل عن الوظيفة المستهدفة والوقت المتاح أسبوعياً، ثم يبني خطة على مراحل.</p>
+        <p class="out"><b>المخرج:</b> 3 إلى 4 مراحل بمخرج ملموس لكل منها، ومشروع تطبيقي لملف الأعمال، وشهادات مهنية مقترحة.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" id="how" aria-labelledby="how-h">
+    <div class="sec-head">
+      <p class="eyebrow">كيف بُني</p>
+      <h2 id="how-h">رحلة الرسالة، من تليجرام وإليه</h2>
+      <p>بُني الوكيل كاملاً على منصة الأتمتة n8n بدون كتابة كود، في سير عمل من ثماني عقد.</p>
+    </div>
+    <div class="flow">
+      <div class="step"><div class="dot">1</div><div><h3>يكتب المستخدم في تليجرام</h3><p>تستقبل عقدة Telegram Trigger الرسالة فور وصولها.</p><span class="tech">Telegram Trigger</span></div></div>
+      <div class="step"><div class="dot">2</div><div><h3>فرز الرسالة</h3><p>إن كانت <span dir="ltr">/start</span> أو <span dir="ltr">/help</span> تُرسل رسالة الترحيب فوراً، وغير ذلك تذهب للوكيل.</p><span class="tech">IF node</span></div></div>
+      <div class="step"><div class="dot">3</div><div><h3>الوكيل يفكر</h3><p>يقرأ تعليمات مساري وذاكرة المحادثة الخاصة بهذا المستخدم، ثم يكتب الرد بنموذج لغوي، بينما يرى المستخدم "يكتب...".</p><span class="tech">AI Agent · Gemini Chat Model · Window Memory</span></div></div>
+      <div class="step"><div class="dot">4</div><div><h3>يصل الرد</h3><p>ترسل عقدة تليجرام الرد للمستخدم نصاً منسقاً يناسب شاشة الجوال.</p><span class="tech">Telegram · sendMessage</span></div></div>
+    </div>
+    <div class="wf"><img src="img/workflow.png" alt="لقطة من n8n لسير عمل مساري: Telegram Trigger، ثم شرط الأوامر، ثم Masari Agent المتصل بنموذج Gemini والذاكرة، ثم Send Reply"></div>
+    <p class="caption">سير العمل كما يظهر في n8n.</p>
+  </section>
+
+  <section class="wrap" aria-labelledby="gal-h">
+    <div class="sec-head">
+      <p class="eyebrow">من المحادثات الفعلية</p>
+      <h2 id="gal-h">مساري أثناء العمل</h2>
+    </div>
+    <div class="gallery">
+      <figure><img src="img/welcome.png" alt="رسالة الترحيب في مساري مع قائمة الخدمات" loading="lazy"><figcaption>رسالة الترحيب والأوامر.</figcaption></figure>
+      <figure class="g-wide"><img src="img/assess.png" alt="بداية اكتشاف المسار: أسئلة مرقمة تبني على إجابات المستخدم" loading="lazy"><figcaption>اكتشاف المسار: كل سؤال يبني على الإجابة السابقة.</figcaption></figure>
+      <figure class="g-wide"><img src="img/interview.png" alt="انتقال من تقرير المسار إلى محاكاة مقابلة لوظيفة باحث تجربة مستخدم" loading="lazy"><figcaption>من تقرير المسار إلى المقابلة، مع أسئلة مرتبطة بخلفية المستخدم.</figcaption></figure>
+      <figure><img src="img/report.png" alt="تقرير المقابلة: تقييم 6 من 10، ونموذج إجابة بطريقة STAR، ونصائح" loading="lazy"><figcaption>تقرير المقابلة بطريقة STAR.</figcaption></figure>
+      <figure class="g-full"><img src="img/age.png" alt="اعتذار لطيف لطالب في المرحلة الثانوية وتوجيهه للمرشد الطلابي" loading="lazy"><figcaption>الالتزام بالفئة العمرية: اعتذار لطيف وتوجيه للمرشد الطلابي.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="rules-h">
+    <div class="sec-head">
+      <p class="eyebrow">ضوابط التصميم</p>
+      <h2 id="rules-h">مرشد مسؤول، لا مجرد روبوت محادثة</h2>
+    </div>
+    <div class="rules">
+      <div class="rule"><h3>الدقة</h3><p>لا يخترع أرقام رواتب أو شروط قبول، ويوجّه دائماً للتحقق من المصادر الرسمية.</p></div>
+      <div class="rule"><h3>الخصوصية</h3><p>ينبّه المستخدم ألا يشارك رقم هويته أو أي بيانات حساسة، ولكل مستخدم ذاكرة منفصلة.</p></div>
+      <div class="rule"><h3>الفئة العمرية</h3><p>الخدمة لمن هم 18 سنة فأكثر، ومن هو دون ذلك يُوجَّه بلطف للمرشد الطلابي ووالديه.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="stack-h">
+    <div class="sec-head">
+      <p class="eyebrow">الأدوات</p>
+      <h2 id="stack-h">التقنيات المستخدمة</h2>
+    </div>
+    <div class="stack">
+      <div class="chip"><b>n8n</b><span>منصة الأتمتة وبناء الوكيل</span></div>
+      <div class="chip"><b>Telegram Bot API</b><span>واجهة المحادثة</span></div>
+      <div class="chip"><b>Google Gemini</b><span>النموذج اللغوي</span></div>
+      <div class="chip"><b>AI Agent + Memory</b><span>التعليمات والذاكرة</span></div>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="next-h">
+    <div class="sec-head">
+      <p class="eyebrow">الخطوات القادمة</p>
+      <h2 id="next-h">ما بعد الإصدار الأول</h2>
+    </div>
+    <ul class="next">
+      <li>قراءة السيرة الذاتية مباشرة من ملف PDF أو صورة.</li>
+      <li>حفظ الملف المهني لكل مستخدم في قاعدة بيانات.</li>
+      <li>ذاكرة دائمة تبقى بعد إعادة تشغيل الخادم.</li>
+      <li>حد يومي للرسائل لضبط الاستخدام.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <div class="author">
+      <b>أريج عطاالله الجبرتي</b>
+      <p>فكرة وتصميم وتنفيذ · ماجستير تقنيات التعليم · ٢٠٢٦</p>
+    </div>
+    <a class="btn btn-gold" href="https://t.me/MasariCareerBot" target="_blank" rel="noopener">@MasariCareerBot</a>
+  </div>
+</footer>
+</body>
+</html>
